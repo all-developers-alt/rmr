@@ -4,11 +4,11 @@ APIの詳細については、別途API解説ドキュメントをご覧くだ�
 （TODO　API解説ドキュメントへのリンク要）<br/><br/>
 
 サンプルスクリプト、及びドキュメントの解説<br/>
-1. rmr_functions.php: <br/>
+1 rmr_functions.php: <br/>
 rmr(rmr_single、rmr_continuous)のAPI操作に必要な全関数をまとめたサンプルスクリプトです。<br/>
 各APIのサンプルコードは、コードのコメントを参照下さい。<br/><br/>
 
-2. rmr_single_sample.php<br/>
+2 rmr_single_sample.php<br/>
 TSV形式のファイルから情報を読み込み、rmr_singleに以下の操作を行います<br/>
 ・質問、回答ペアをファイルから読み込み、インデックスする（rmr_single_post.txtは質問、回答サンプル）<br/>
 ・質問をファイルから読み込み、回答取得を行い、結果をファイルに書き出す（rmr_single_get.txtは質問サンプル）<br/><br/>
@@ -25,7 +25,7 @@ rmr_single_sample.php -m post -a aaabbxxxxxxxx -i rmr_single_post.txt<br/>
 ・get時<br/>
 rmr_single_sample.php -m get -a aaabbxxxxxxxx -i rmr_single_get.txt -o results.txt<br/><br/>
 
-3. rmr_continuous_sample.php<br/>
+3 rmr_continuous_sample.php<br/>
 TSV形式のファイルから情報を読み込み、rmr_continuousに以下の操作を行います<br/>
 ・質問、回答ペアをファイルから読み込み、インデックスする（rmr_continuous_post.txtは質問、回答サンプル）<br/>
 ・質問をファイルから読み込み、回答取得を行い、結果をファイルに書き出す（rmr_continuous_get.txtは質問サンプル）<br/><br/>
