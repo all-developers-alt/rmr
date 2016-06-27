@@ -1,7 +1,7 @@
 RMR single、及びRMR continuous APIのプログラム（PHP）
-からの使用例について解説します。
+からの使用例について解説します。<br/>
 APIの詳細については、別途API解説ドキュメントをご覧ください。
-（TODO　API解説ドキュメントへのリンク要）
+（TODO　API解説ドキュメントへのリンク要）<br/><br/>
 
 サンプルスクリプト、及びドキュメントの解説
 1. rmr_functions.php: 
