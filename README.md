@@ -1,7 +1,7 @@
 RMR single、及びRMR continuous APIのプログラム（PHP）
 からの使用例について解説します。<br/>
 APIの詳細については、別途API解説ドキュメントをご覧ください。
-（TODO　API解説ドキュメントへのリンク要）<br/><br/>
+https://dev.alt.ai/getting_started<br/><br/>
 
 サンプルスクリプト、及びドキュメントの解説<br/>
 1 rmr_functions.php: <br/>
