@@ -6,10 +6,10 @@
  * 
  * @param type $url rmr_single用のHTTP GETのURL
  * @param type $api_key ユーザに発行されているapi key
- * @param type $context_id 継続会話のcontext id
+ * @param type $memory_label 一連の会話を表すmemory_label
  * @param type $file_path TSV形式の質問、回答ペアデータファイル
  */
-function feed_rmr_continuous_data($url, $api_key, $context_id, $file_path = "rmr_continuous_post.txt") {
+function feed_rmr_continuous_data($url, $api_key, $memory_label, $file_path = "rmr_continuous_post.txt") {
     $contents = file_get_contents($file_path);
     $lines = explode("\n", $contents);
     foreach ($lines as $line) {
@@ -17,7 +17,7 @@ function feed_rmr_continuous_data($url, $api_key, $context_id, $file_path = "rmr
         if (count($split) == 2) {
             $question = $split[0];
             $answer = $split[1];
-            post_rmr_continuous($url, $api_key, $question, $answer, $context_id);
+            post_rmr_continuous($url, $api_key, $question, $answer, $memory_label);
         }
     }
 }
@@ -29,12 +29,12 @@ function feed_rmr_continuous_data($url, $api_key, $context_id, $file_path = "rmr
  * 
  * @param type $url rmr_single用のHTTP GETのURL
  * @param type $api_key ユーザに発行されているapi key
- * @param type $context_id 継続会話のcontext id
+ * @param type $memory_label 一連の会話を表すmemory_label
  * @param type $session_id 会話のsession id、空の場合は以前のsession idを引き継ぐ
  * @param type $input_file_path 一行ごとに質問を記載したテキストファイル
  * @param type $output_file_path 質問と、解答候補一覧を示す結果ファイル
  */
-function get_rmr_continuous_results($url, $api_key, $context_id, $session_id = "", $input_file_path = "./rmr_continuous_get.txt", $output_file_path = "./results.txt") {
+function get_rmr_continuous_results($url, $api_key, $memory_label, $session_id = "", $input_file_path = "./rmr_continuous_get.txt", $output_file_path = "./results.txt") {
     $contents = file_get_contents($input_file_path);
     $lines = explode("\n", $contents);
     $qa_count = 0;
@@ -49,7 +49,7 @@ function get_rmr_continuous_results($url, $api_key, $context_id, $session_id = "
             $answers .= "質問" . $qa_count . ":" . $question . "\n";
             $answers .= "=== 回答候補 ===" . "\n";
 
-            $results = get_rmr_continuous($api_key, $url, $question, $context_id, $session_id);
+            $results = get_rmr_continuous($api_key, $url, $question, $memory_label, $session_id);
 
             if (count($results) > 0) {
                 $order = 0;
@@ -69,14 +69,14 @@ function get_rmr_continuous_results($url, $api_key, $context_id, $session_id = "
     file_put_contents($output_file_path, $answers);
 }
 
-function post_rmr_continuous($url, $api_key, $question, $answer, $context) {
-    $data = array('api_key' => $api_key, 'question' => $question, 'answer' => $answer, 'context_id' => $context);
+function post_rmr_continuous($url, $api_key, $question, $answer, $memory_label) {
+    $data = array('api_key' => $api_key, 'question' => $question, 'answer' => $answer, 'memory_label' => $memory_label);
     $results = json_decode(http_post($url, $data), true);
     return $results;
 }
 
-function get_rmr_continuous($api_key, $url, $question, $context, $session_id = "") {
-    $data = array('api_key' => $api_key, 'question' => $question, 'context_id' => $context, 'session_id' => $session_id);
+function get_rmr_continuous($api_key, $url, $question, $memory_label, $session_id = "") {
+    $data = array('api_key' => $api_key, 'question' => $question, 'memory_label' => $memory_label, 'session_id' => $session_id);
     $results = json_decode(http_get($url, $data), true);
     return $results;
 }
@@ -112,7 +112,7 @@ function http_post($url, $data) {
     return $contents;
 }
 
-$options = getopt('m:a:c:i:o:s:');
+$options = getopt('m:a:l:i:o:s:');
 if (array_key_exists('m', $options)) {
     $mode = $options['m'];
 }
@@ -121,8 +121,8 @@ if (array_key_exists('a', $options)) {
     $api_key = $options['a'];
 }
 
-if (array_key_exists('c', $options)) {
-    $context_id = $options['c'];
+if (array_key_exists('l', $options)) {
+    $memory_label = $options['l'];
 }
 
 if (array_key_exists('s', $options)) {
@@ -145,8 +145,8 @@ if (empty($api_key)) {
     die("api_keyを指定して下さい。");
 }
 
-if (empty($context_id)) {
-    die("context idを指定して下さい。");
+if (empty($memory_label)) {
+    die("memory_labelを指定して下さい。");
 }
 
 if (empty($session_id)) {
@@ -157,19 +157,19 @@ $url = 'http://dev.alt.ai:80/api/rmr_continuous';
 
 if ($mode == 'get') {
     if (empty($input_file)) {
-        get_rmr_continuous_results($url, $api_key, $context_id, $session_id);
+        get_rmr_continuous_results($url, $api_key, $memory_label, $session_id);
     } else {
         if (empty($output_file)) {
-            get_rmr_continuous_results($url, $api_key, $context_id, $session_id, $input_file);
+            get_rmr_continuous_results($url, $api_key, $memory_label, $session_id, $input_file);
         } else {
-            get_rmr_continuous_results($url, $api_key, $context_id, $session_id, $input_file, $output_file);
+            get_rmr_continuous_results($url, $api_key, $memory_label, $session_id, $input_file, $output_file);
         }
     }
 } elseif ($mode == 'post') {
     if (empty($input_file)) {
-        feed_rmr_continuous_data($url, $api_key, $context_id);
+        feed_rmr_continuous_data($url, $api_key, $memory_label);
     } else {
-        feed_rmr_continuous_data($url, $api_key, $context_id, $input_file);
+        feed_rmr_continuous_data($url, $api_key, $memory_label, $input_file);
     }
 } else {
     die("modeはgetまたは、postで指定して下さい");
