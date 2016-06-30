@@ -82,11 +82,11 @@ function delete_all_rmr_single($api_key) {
  * @param type $api_key 発行されたapi_key
  * @param type $question 質問
  * @param type $answer 回答
- * @param type $context_id 継続会話中のcontext_id（会話ID）
+ * @param type $memory_label 一連の会話を表すmemory_label
  * @return type 登録された質問、回答ペアのID、context_idを配列で取得
  */
-function post_rmr_continuous($api_key, $question, $answer, $context_id) {
-    $data = array('api_key' => $api_key, 'question' => $question, 'answer' => $answer, 'context_id' => $context_id);
+function post_rmr_continuous($api_key, $question, $answer, $memory_label) {
+    $data = array('api_key' => $api_key, 'question' => $question, 'answer' => $answer, 'memory_label' => $memory_label);
     $url = 'http://dev.alt.ai:80/api/rmr_continuous';
     $results = json_decode(http_post($url, $data), true);
     return $results;
@@ -94,17 +94,17 @@ function post_rmr_continuous($api_key, $question, $answer, $context_id) {
 
 /**
  * rmr_continuousへインデックスされている質問、回答ペアを
- * 質問、context_id（会話ID）を指定する事により
+ * 質問、$memory_labelを指定する事により
  * 関連度の高い順に取得する事が可能です。
  * 
  * @param type $api_key 発行されたapi_key
  * @param type $question 質問
- * @param type $context_id 継続会話中のcontext_id（会話ID）
- * @param type $session_id 継続会話のセッションIDを指定（指定が無い場合、前のセッションを引き継ぐ）
+ * @param type $memory_label 一連の会話を表すmemory_label
+ * @param type $session_id 継続会話のセッションIDを指定（指定が無い場合、内部で自動生成される）
  * @return type 継続会話の質問、回答ペア情報を配列で取得
  */
 function get_rmr_continuous($api_key, $question, $context_id, $session_id = null) {
-    $data = array('api_key' => $api_key, 'question' => $question, 'context_id' => $context_id, 'session_id' => $session_id);
+    $data = array('api_key' => $api_key, 'question' => $question, 'memory_label' => $memory_label, 'session_id' => $session_id);
     $url = 'http://dev.alt.ai:80/api/rmr_continuous';
     $results = json_decode(http_get($url, $data), true);
     return $results;
@@ -119,7 +119,7 @@ function get_rmr_continuous($api_key, $question, $context_id, $session_id = null
  */
 function get_all_rmr_continuous($api_key) {
     $data = array('api_key' => $api_key);
-    $url = 'http://dev.alt.ai:80/api/rmr_continuous/all';
+    $url = 'http://dev.alt.ai:80/api/rmr_continuous';
     $results = json_decode(http_get($url, $data), true);
     return $results;
 }
@@ -133,7 +133,7 @@ function get_all_rmr_continuous($api_key) {
  */
 function delete_all_rmr_continuous($api_key) {
     $data = array('api_key' => $api_key);
-    $url = 'http://dev.alt.ai:80/api/rmr_continuous/all';
+    $url = 'http://dev.alt.ai:80/api/rmr_continuous';
     $results = json_decode(http_delete($url, $data), true);
     return $results;
 }
@@ -181,7 +181,7 @@ function post_synonyms($api_key, $word1, $word2) {
  */
 function get_all_synonyms($api_key) {
     $data = array('api_key' => $api_key);
-    $url = 'http://dev.alt.ai:80/api/synonyms/all';
+    $url = 'http://dev.alt.ai:80/api/synonyms';
     $results = json_decode(http_get($url, $data), true);
     return $results;
 }
@@ -194,7 +194,7 @@ function get_all_synonyms($api_key) {
  */
 function delete_all_synonyms($api_key) {
     $data = array('api_key' => $api_key);
-    $url = 'http://dev.alt.ai:80/api/synonyms/all';
+    $url = 'http://dev.alt.ai:80/api/synonyms';
     $results = json_decode(http_delete($url, $data), true);
     return $results;
 }
@@ -212,69 +212,6 @@ function delete_synonyms($api_key, $word1, $word2) {
     $url = 'http://dev.alt.ai:80/api/synonyms';
     $results = json_decode(http_delete($url, $data), true);
     return $results;
-}
-
-/**
- * ユーザが登録を行った継続会話の
- * context_id（会話ID）一覧を表示します。
- * 
- * @param type $api_key 発行されたapi_key
- * @return type ユーザが登録した継続会話のcontext_id（会話ID）一覧情報を配列で取得
- */
-function get_context_id($api_key) {
-    $data = array('api_key' => $api_key);
-    $url = 'http://dev.alt.ai:80/api/context';
-    $results = json_decode(http_get($url, $data), true);
-    return $results;
-}
-
-/**
- * ユーザが登録を行った一連の継続会話を、
- * context_id（会話ID）を指定する事により
- * 全て削除する事が可能です。
- * 
- * @param type $api_key 発行されたapi_key
- * @param type $context_id 継続会話中のcontext_id（会話ID）
- * @return type 継続会話の削除情報を配列で取得
- */
-function delete_context_id($api_key, $context_id) {
-    $data = array('api_key' => $api_key, 'context_id' => $context_id);
-    $url = 'http://dev.alt.ai:80/api/context';
-    $results = json_decode(http_delete($url, $data), true);
-    return $results;
-}
-
-/**
- * context_id（会話ID）を指定して、対応する
- * 一連の継続会話の内容一覧を取得する事が可能です。
- * 
- * @param type $api_key 発行されたapi_key
- * @param type $context_id 継続会話中のcontext_id（会話ID）
- * @return type 継続会話の一連の質問、回答情報を配列で取得
- */
-function get_context_details($api_key, $context_id) {
-    $data = array('api_key' => $api_key, 'context_id' => $context_id);
-    $url = 'http://dev.alt.ai:80/api/context/details';
-    $results = json_decode(http_get($url, $data), true);
-    return $results;
-}
-
-function http_get($url, $data) {
-    $params = "";
-    foreach ($data as $k => $v) {
-        $params .= $k . '=' . urlencode($v) . '&';
-    }
-    $url = $url . "?" . $params;
-    $url = rtrim($url, '&');
-
-    $ch = curl_init();
-    curl_setopt_array($ch, array(
-        CURLOPT_URL => $url,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_SSL_VERIFYPEER => false,
-    ));
-    $contents = curl_exec($ch);
-    return $contents;
 }
 
 function http_post($url, $data) {
