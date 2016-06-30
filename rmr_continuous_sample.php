@@ -20,6 +20,8 @@ function feed_rmr_continuous_data($url, $api_key, $memory_label, $file_path = "r
             post_rmr_continuous($url, $api_key, $question, $answer, $memory_label);
         }
     }
+
+    print "all input data posted!";
 }
 
 /**
@@ -67,6 +69,7 @@ function get_rmr_continuous_results($url, $api_key, $memory_label, $session_id =
     }
 
     file_put_contents($output_file_path, $answers);
+    print "results file generated in $output_file_path";
 }
 
 function post_rmr_continuous($url, $api_key, $question, $answer, $memory_label) {
