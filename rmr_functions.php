@@ -5,11 +5,11 @@
  * IDを指定して削除する事が可能です。
  * 
  * @param type $api_key 発行されたapi_key
- * @param type $id 質問、回答ペアのID
+ * @param type $pid 質問、回答ペアのID
  * @return type 削除された質問、回答ペアのIDを配列で取得
  */
-function delete_rmr_single($api_key, $id) {
-    $data = array('api_key' => $api_key, 'id' => $id);
+function delete_rmr_single($api_key, $pid) {
+    $data = array('api_key' => $api_key, 'pid' => $pid);
     $url = 'http://dev.alt.ai:80/api/rmr_single';
     $results = json_decode(http_delete($url, $data), true);
     return $results;
@@ -56,7 +56,7 @@ function get_rmr_single($api_key, $question) {
  */
 function get_all_rmr_single($api_key) {
     $data = array('api_key' => $api_key);
-    $url = 'http://dev.alt.ai:80/api/rmr_single/all';
+    $url = 'http://dev.alt.ai:80/api/rmr_single';
     $results = json_decode(http_get($url, $data), true);
     return $results;
 }
@@ -70,7 +70,7 @@ function get_all_rmr_single($api_key) {
  */
 function delete_all_rmr_single($api_key) {
     $data = array('api_key' => $api_key);
-    $url = 'http://dev.alt.ai:80/api/rmr_single/all';
+    $url = 'http://dev.alt.ai:80/api/rmr_single';
     $results = json_decode(http_delete($url, $data), true);
     return $results;
 }
@@ -103,7 +103,7 @@ function post_rmr_continuous($api_key, $question, $answer, $memory_label) {
  * @param type $session_id 継続会話のセッションIDを指定（指定が無い場合、内部で自動生成される）
  * @return type 継続会話の質問、回答ペア情報を配列で取得
  */
-function get_rmr_continuous($api_key, $question, $context_id, $session_id = null) {
+function get_rmr_continuous($api_key, $question, $memory_label, $session_id = null) {
     $data = array('api_key' => $api_key, 'question' => $question, 'memory_label' => $memory_label, 'session_id' => $session_id);
     $url = 'http://dev.alt.ai:80/api/rmr_continuous';
     $results = json_decode(http_get($url, $data), true);
@@ -214,12 +214,17 @@ function delete_synonyms($api_key, $word1, $word2) {
     return $results;
 }
 
-function http_post($url, $data) {
+function http_get($url, $data) {
+    $params = "";
+    foreach ($data as $k => $v) {
+        $params .= $k . '=' . urlencode($v) . '&';
+    }
+    $url = $url . "?" . $params;
+    $url = rtrim($url, '&');
+
     $ch = curl_init();
     curl_setopt_array($ch, array(
         CURLOPT_URL => $url,
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => http_build_query($data, '', '&'),
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_SSL_VERIFYPEER => false,
     ));
@@ -227,11 +232,11 @@ function http_post($url, $data) {
     return $contents;
 }
 
-function http_put($url, $data) {
+function http_post($url, $data) {
     $ch = curl_init();
     curl_setopt_array($ch, array(
         CURLOPT_URL => $url,
-        CURLOPT_CUSTOMREQUEST => 'PUT',
+        CURLOPT_POST => true,
         CURLOPT_POSTFIELDS => http_build_query($data, '', '&'),
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_SSL_VERIFYPEER => false,
