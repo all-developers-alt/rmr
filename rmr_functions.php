@@ -10,7 +10,7 @@
  */
 function delete_rmr_single($api_key, $pid) {
     $data = array('api_key' => $api_key, 'pid' => $pid);
-    $url = 'http://dev.alt.ai:80/api/rmr_single';
+    $url = 'https://adg.alt.ai:443/api/rmr_single';
     $results = json_decode(http_delete($url, $data), true);
     return $results;
 }
@@ -26,7 +26,7 @@ function delete_rmr_single($api_key, $pid) {
  */
 function post_rmr_single($api_key, $question, $answer) {
     $data = array('api_key' => $api_key, 'question' => $question, 'answer' => $answer);
-    $url = 'http://dev.alt.ai:80/api/rmr_single';
+    $url = 'https://adg.alt.ai:443/api/rmr_single';
     $results = json_decode(http_post($url, $data), true);
     return $results;
 }
@@ -42,7 +42,7 @@ function post_rmr_single($api_key, $question, $answer) {
  */
 function get_rmr_single($api_key, $question) {
     $data = array('api_key' => $api_key, 'question' => $question);
-    $url = 'http://dev.alt.ai:80/api/rmr_single';
+    $url = 'https://adg.alt.ai:443/api/rmr_single';
     $results = json_decode(http_get($url, $data), true);
     return $results;
 }
@@ -56,7 +56,7 @@ function get_rmr_single($api_key, $question) {
  */
 function get_all_rmr_single($api_key) {
     $data = array('api_key' => $api_key);
-    $url = 'http://dev.alt.ai:80/api/rmr_single';
+    $url = 'https://adg.alt.ai:443/api/rmr_single';
     $results = json_decode(http_get($url, $data), true);
     return $results;
 }
@@ -70,7 +70,7 @@ function get_all_rmr_single($api_key) {
  */
 function delete_all_rmr_single($api_key) {
     $data = array('api_key' => $api_key);
-    $url = 'http://dev.alt.ai:80/api/rmr_single';
+    $url = 'https://adg.alt.ai:443/api/rmr_single';
     $results = json_decode(http_delete($url, $data), true);
     return $results;
 }
@@ -87,7 +87,7 @@ function delete_all_rmr_single($api_key) {
  */
 function post_rmr_continuous($api_key, $question, $answer, $memory_label) {
     $data = array('api_key' => $api_key, 'question' => $question, 'answer' => $answer, 'memory_label' => $memory_label);
-    $url = 'http://dev.alt.ai:80/api/rmr_continuous';
+    $url = 'https://adg.alt.ai:443/api/rmr_continuous';
     $results = json_decode(http_post($url, $data), true);
     return $results;
 }
@@ -105,7 +105,7 @@ function post_rmr_continuous($api_key, $question, $answer, $memory_label) {
  */
 function get_rmr_continuous($api_key, $question, $memory_label, $session_id = null) {
     $data = array('api_key' => $api_key, 'question' => $question, 'memory_label' => $memory_label, 'session_id' => $session_id);
-    $url = 'http://dev.alt.ai:80/api/rmr_continuous';
+    $url = 'https://adg.alt.ai:443/api/rmr_continuous';
     $results = json_decode(http_get($url, $data), true);
     return $results;
 }
@@ -119,7 +119,7 @@ function get_rmr_continuous($api_key, $question, $memory_label, $session_id = nu
  */
 function get_all_rmr_continuous($api_key) {
     $data = array('api_key' => $api_key);
-    $url = 'http://dev.alt.ai:80/api/rmr_continuous';
+    $url = 'https://adg.alt.ai:443/api/rmr_continuous';
     $results = json_decode(http_get($url, $data), true);
     return $results;
 }
@@ -133,7 +133,7 @@ function get_all_rmr_continuous($api_key) {
  */
 function delete_all_rmr_continuous($api_key) {
     $data = array('api_key' => $api_key);
-    $url = 'http://dev.alt.ai:80/api/rmr_continuous';
+    $url = 'https://adg.alt.ai:443/api/rmr_continuous';
     $results = json_decode(http_delete($url, $data), true);
     return $results;
 }
@@ -151,7 +151,7 @@ function delete_all_rmr_continuous($api_key) {
  */
 function get_synonyms($word, $api_key = null) {
     $data = array('api_key' => $api_key, 'word' => $word);
-    $url = 'http://dev.alt.ai:80/api/synonyms';
+    $url = 'https://adg.alt.ai:443/api/synonyms';
     $results = json_decode(http_get($url, $data), true);
     return $results;
 }
@@ -168,7 +168,7 @@ function get_synonyms($word, $api_key = null) {
  */
 function post_synonyms($api_key, $word1, $word2) {
     $data = array('api_key' => $api_key, 'word1' => $word1, 'word2' => $word2);
-    $url = 'http://dev.alt.ai:80/api/synonyms';
+    $url = 'https://adg.alt.ai:443/api/synonyms';
     $results = json_decode(http_post($url, $data), true);
     return $results;
 }
@@ -181,7 +181,7 @@ function post_synonyms($api_key, $word1, $word2) {
  */
 function get_all_synonyms($api_key) {
     $data = array('api_key' => $api_key);
-    $url = 'http://dev.alt.ai:80/api/synonyms';
+    $url = 'https://adg.alt.ai:443/api/synonyms';
     $results = json_decode(http_get($url, $data), true);
     return $results;
 }
@@ -194,7 +194,7 @@ function get_all_synonyms($api_key) {
  */
 function delete_all_synonyms($api_key) {
     $data = array('api_key' => $api_key);
-    $url = 'http://dev.alt.ai:80/api/synonyms';
+    $url = 'https://adg.alt.ai:443/api/synonyms';
     $results = json_decode(http_delete($url, $data), true);
     return $results;
 }
@@ -209,7 +209,7 @@ function delete_all_synonyms($api_key) {
  */
 function delete_synonyms($api_key, $word1, $word2) {
     $data = array('api_key' => $api_key, 'word1' => $word1, 'word2' => $word2);
-    $url = 'http://dev.alt.ai:80/api/synonyms';
+    $url = 'https://adg.alt.ai:443/api/synonyms';
     $results = json_decode(http_delete($url, $data), true);
     return $results;
 }
