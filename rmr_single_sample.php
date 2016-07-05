@@ -135,7 +135,7 @@ if (empty($api_key)) {
     die("api_keyを指定して下さい。");
 }
 
-$url = 'http://dev.alt.ai:80/api/rmr_single';
+$url = 'https://adg.alt.ai:443/api/rmr_single';
 
 if ($mode == 'get') {
     if (empty($input_file)) {

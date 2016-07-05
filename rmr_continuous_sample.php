@@ -156,7 +156,7 @@ if (empty($session_id)) {
     $session_id = uniqid();
 }
 
-$url = 'http://dev.alt.ai:80/api/rmr_continuous';
+$url = 'https://adg.alt.ai:443/api/rmr_continuous';
 
 if ($mode == 'get') {
     if (empty($input_file)) {
